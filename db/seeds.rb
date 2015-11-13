@@ -1,5 +1,5 @@
 include RandomData
-
+=begin
 # Create Posts
 50.times do
   Post.create!(
@@ -17,7 +17,9 @@ posts = Post.all
     body: RandomData.random_paragraph
   ) 
 end
+=end
+Post.find_or_create_by(title: "This is the best post ever written!")
+Comment.find_or_create_by(body: "blah!!!")
 
-puts "Seed finished"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
