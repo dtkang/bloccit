@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "password") }
+  let(:one_name_part_all_lowercase) { User.create!(name: "bob", email: "user1@bloccit.com", password: "password") }
+  let(:two_name_parts_all_lowercase) { User.create!(name: "bob smith", email: "user2@bloccit.com", password: "password") }
+  let(:three_name_parts_all_lowercase) { User.create!(name: "bob tom smith", email: "user3@bloccit.com", password: "password") }
+  let(:two_name_parts_one_lowercase) { User.create!(name: "Bob smith", email: "user4@bloccit.com", password: "password") }
+  let(:two_name_parts_both_uppercase) { User.create!(name: "Bob Smith", email: "user5@bloccit.com", password: "password") }  
 
   it { should validate_presence_of(:name) }
   it { should validate_length_of(:name).is_at_least(1) }
@@ -42,5 +47,27 @@ RSpec.describe User, type: :model do
     it "should be an invalid user due to incorrectly formatted email address" do
       expect(user_with_invalid_email_format).to_not be_valid
     end
+  end
+  
+  describe "name formatting" do
+    it "should uppercase all parts of the name before saving: one_name_part_all_lowercase" do
+      expect(one_name_part_all_lowercase.name).to eq("Bob")
+    end
+
+    it "should uppercase all parts of the name before saving: two_name_parts_all_lowercase" do
+      expect(two_name_parts_all_lowercase.name).to eq("Bob Smith")
+    end
+
+    it "should uppercase all parts of the name before saving: three_name_parts_all_lowercase" do
+      expect(three_name_parts_all_lowercase.name).to eq("Bob Tom Smith")
+    end
+    
+    it "should uppercase all parts of the name before saving: two_name_parts_one_lowercase" do
+      expect(two_name_parts_one_lowercase.name).to eq("Bob Smith")
+    end
+    
+    it "should uppercase all parts of the name before saving: two_name_parts_both_uppercase" do
+      expect(two_name_parts_both_uppercase.name).to eq("Bob Smith")
+    end    
   end
 end
