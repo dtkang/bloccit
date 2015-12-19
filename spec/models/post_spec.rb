@@ -65,4 +65,11 @@ RSpec.describe Post, type: :model do
       end
     end
   end
+  
+  describe "post initialization" do
+    it "should have one up vote already when a new post is created" do
+      new_post = topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user)
+      expect(new_post.up_votes).to eq(1)
+    end
+  end
 end
