@@ -7,6 +7,8 @@ class Post < ActiveRecord::Base
   has_many :labels, through: :labelings
   has_many :favorites, dependent: :destroy
   
+  after_create { :favorite_yourself }
+  
   default_scope { order('rank DESC') }
   
   validates :title, length: { minimum: 5 }, presence: true
@@ -31,4 +33,10 @@ class Post < ActiveRecord::Base
     new_rank = points + age_in_days
     update_attribute(:rank, new_rank)
   end
+  
+  private
+  
+  def favorite_yourself
+    FavoriteMailer.new_post(favorite.user, post, self).deliver_now
+  end  
 end
