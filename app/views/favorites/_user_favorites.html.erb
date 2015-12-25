@@ -1,0 +1,19 @@
+<% user.favorites.each do |favorite| %>
+  <div class="media">
+    <div class="media-body">
+      <h4 class="media-heading">
+        <%= link_to favorite.post.title, topic_post_path(favorite.post.topic, favorite.post) %>
+      </h4>
+      <small>
+        submitted <%= time_ago_in_words(favorite.post.created_at) %> ago by <%= favorite.post.user.name %>
+        <% avatar_url = favorite.post.user.avatar_url(16) %>
+        <% if avatar_url %>
+          <%= image_tag avatar_url %>
+        <% end %>        
+        <br>
+        <%= pluralize(favorite.post.comments.count, "Comment") %>;
+        <%= pluralize(favorite.post.points, "Point") %>
+      </small>
+    </div>
+  </div>
+<% end %>
